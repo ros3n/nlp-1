@@ -10,8 +10,9 @@ class LCVector(object):
 
     def calculate_vector(self):
         alphabet = ' abcdefghijklmnopqrstuvwxyz'
+        n_factor = float(len(self.ngrams))
         self.vector = [
-            self.counter[k] for k in map(
+            self.counter[k] / n_factor for k in map(
                 ''.join, itertools.product(alphabet, repeat=self.ngram_len)
             )
         ]
@@ -26,3 +27,10 @@ class LCVector(object):
         return LCVector(
             vector=map(lambda x: x / divider, self.vector)
         )
+
+    def cos_distance(self, other):
+        numerator = sum(
+            map(lambda x: x[0] * x[1], zip(self.vector, other.vector))
+        )
+        denominator = len(self.vector) * len(other.vector)
+        return 1 -  numerator / denominator
