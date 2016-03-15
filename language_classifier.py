@@ -4,23 +4,28 @@ from ngram_reader import NgramReader
 
 
 class LanguageClassifier(object):
-    def __init__(self, languages, ngram_len):
+    def __init__(self, languages, ngram_len, verbose=True):
         self.languages = languages
         self.ngram_len = ngram_len
+        self.verbose = verbose
 
     def calculate_vectors(self):
-        print "Calculating vectors.."
+        if self.verbose:
+            print "Calculating vectors.."
         alphabet = ' abcdefghijklmnopqrstuvwxyz'
         self.index_ngrams = map(
             ''.join, itertools.product(alphabet, repeat=self.ngram_len)
         )
         for language, data in self.languages.iteritems():
-            print language
+            if self.verbose:
+                print language
             self.languages[language]['vector'] = self.calculate_average_vector(
                 self.ngram_len, self.index_ngrams, data['samples']
             )
-            print '\r Done.'
-        print "Finished.\n"
+            if self.verbose:
+                print '\r Done.'
+        if self.verbose:
+            print "Finished.\n"
 
     def determine_language(self, input_data):
         lc_vector = self.calculate_vector(self.ngram_len, text=input_data)
