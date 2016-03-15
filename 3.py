@@ -49,8 +49,11 @@ if __name__ == '__main__':
     ]
 
     for i in xrange(1, 11):
-        classifier = LanguageClassifier(languages, i, verbose=False)
-        classifier.calculate_vectors()
+        for language, d in languages.iteritems():
+            with open('cache/{0}{1}.data'.format(language.lower(), i)) as f:
+                languages[language]['vector'] = pickle.load(f)
+        classifier = LanguageClassifier(languages, i)
+
         for sentence in sample_sentences:
             print sentence
             print i, classifier.determine_language(sentence)
