@@ -1,6 +1,8 @@
 #! -*- encoding: utf-8 -*-
 
+import pickle
 import sys
+import dill
 from language_classifier import *
 
 languages = {

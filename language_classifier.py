@@ -15,6 +15,7 @@ class LanguageClassifier(object):
         language_name = ''
         for language, data in self.languages.iteritems():
             dist = lc_vector.cos_distance(self.languages[language]['vector'])
+            print language, dist
             if dist < min_dist:
                 min_dist = dist
                 language_name = language
